@@ -1,0 +1,31 @@
+{
+  "name": "pragma-pbxproj",
+  "version": "1.0.0",
+  "description": "Parser and serializer for .pbxproj files with comment strategies",
+  "type": "module",
+  "main": "src/index.js",
+  "bin": {
+    "pragma-pbxproj": "./src/cli.js"
+  },
+  "scripts": {
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:watch": "vitest --watch"
+  },
+  "keywords": [
+    "pbxproj",
+    "xcode",
+    "parser",
+    "ios",
+    "macos"
+  ],
+  "author": "Denis Kreshikhin <denis@kreshikhin.com>",
+  "license": "MIT",
+  "dependencies": {
+    "fast-glob": "^3.3.3"
+  },
+  "devDependencies": {
+    "prettier": "^3.6.2",
+    "vitest": "^3.2.4"
+  }
+}
