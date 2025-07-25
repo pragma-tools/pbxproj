@@ -5,7 +5,7 @@ import { parse, serialize } from './index.js';
 const [inputFile] = process.argv.slice(2);
 
 if (!inputFile) {
-  console.error('Usage: pragma-pbxproj path/to/project.pbxproj');
+  console.error('Usage: pbxproj path/to/project.pbxproj');
   process.exit(1);
 }
 

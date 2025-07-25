@@ -1,11 +1,11 @@
 {
-  "name": "pragma-pbxproj",
+  "name": "@pragma.tools/pbxproj",
   "version": "1.0.0",
-  "description": "Parser and serializer for .pbxproj files with comment strategies",
+  "description": "Parser and serializer for .pbxproj files with customizing comment strategies",
   "type": "module",
   "main": "src/index.js",
   "bin": {
-    "pragma-pbxproj": "./src/cli.js"
+    "pbxproj": "src/cli.js"
   },
   "scripts": {
     "test": "vitest",
@@ -27,5 +27,21 @@
   "devDependencies": {
     "prettier": "^3.6.2",
     "vitest": "^3.2.4"
-  }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pragma-tools/pbxproj.git"
+  },
+  "bugs": {
+    "url": "https://github.com/pragma-tools/pbxproj/issues"
+  },
+  "homepage": "https://github.com/pragma-tools/pbxproj#readme",
+  "files": [
+    "src/",
+    "README.md",
+    "LICENSE"
+  ]
 }

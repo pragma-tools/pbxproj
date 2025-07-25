@@ -7,7 +7,7 @@ describe('CLI', () => {
     try {
       execSync('node src/cli.js', { encoding: 'utf8', stdio: 'pipe' });
     } catch (error) {
-      expect(error.stderr).toContain('Usage: pragma-pbxproj');
+      expect(error.stderr).toContain('Usage: pbxproj');
       expect(error.status).toBe(1);
     }
   });

@@ -155,4 +155,5 @@ coverage/
 
 # Vitest
 coverage/
-test-results/ 
+test-results/
+PUBLISH.md

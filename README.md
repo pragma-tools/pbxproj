@@ -5,7 +5,7 @@ Parser and builder for .pbxproj files with comment strategies
 ## Installation
 
 ```bash
-npm install pragma-pbxproj
+npm install @pragma.tools/pbxproj
 ```
 
 ## Usage
@@ -13,7 +13,7 @@ npm install pragma-pbxproj
 ### Node.js API
 
 ```javascript
-import { parse, serialize, stringify } from 'pragma-pbxproj';
+import { parse, serialize, stringify } from '@pragma.tools/pbxproj';
 import fs from 'fs';
 
 // Read .pbxproj file
@@ -113,10 +113,10 @@ rootObject = 1A2B3C4D5E6F7890ABCDEF06;
 
 ```bash
 # Parse and rebuild with generated comments
-pragma-pbxproj path/to/project.pbxproj
+pbxproj path/to/project.pbxproj
 
 # Or using npx
-npx pragma-pbxproj path/to/project.pbxproj
+npx @pragma.tools/pbxproj path/to/project.pbxproj
 ```
 
 ## Comment Strategies

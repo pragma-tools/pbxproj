@@ -1,0 +1,32 @@
+# Development files
+test/
+*.test.js
+vitest.config.js
+cursor-instructions.md
+cursor.json
+
+# Build tools
+.github/
+.vscode/
+.idea/
+
+# Logs and caches
+*.log
+node_modules/
+coverage/
+.nyc_output
+
+# Git files
+.gitignore
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+tmp/
+temp/
+
+# Development dependencies
+package-lock.json
+yarn.lock 
