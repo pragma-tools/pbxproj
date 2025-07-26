@@ -21,7 +21,8 @@ describe('parse', () => {
       archiveVersion: 1,
       objectVersion: 56,
       objects: {},
-      rootObject: null,
+      rootObject: "1A2B3C4D5E6F7890ABCDEF06",
+      classes: {},
     });
   });
 
@@ -72,6 +73,7 @@ describe('parse', () => {
       objectVersion: null,
       objects: {},
       rootObject: null,
+      classes: {},
     });
   });
 
@@ -84,7 +86,7 @@ describe('parse', () => {
 
     const result = parse(pbxprojContent);
 
-    expect(result.archiveVersion).toBeNaN();
-    expect(result.objectVersion).toBeNaN();
+    expect(result.archiveVersion).toBe("invalid");
+    expect(result.objectVersion).toBe("also_invalid");
   });
 }); 

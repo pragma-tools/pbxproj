@@ -21,7 +21,7 @@ describe('CLI', () => {
     expect(result).toContain('archiveVersion = 1;');
     expect(result).toContain('objectVersion = 56;');
     expect(result).toContain('objects = {');
-    expect(result).toContain('rootObject = null;');
+    expect(result).toContain('rootObject = 1A2B3C4D5E6F7890ABCDEF06;');
   });
 
   it('should handle non-existent file gracefully', () => {

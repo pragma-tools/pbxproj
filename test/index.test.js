@@ -24,8 +24,13 @@ describe('Main Module', () => {
     
     expect(result).toHaveProperty('archiveVersion');
     expect(result).toHaveProperty('objectVersion');
+    expect(result.archiveVersion).toBe(1);
+    expect(result.objectVersion).toBe(56);
+    
+    // Check that it includes pbxproj structure fields
     expect(result).toHaveProperty('objects');
     expect(result).toHaveProperty('rootObject');
+    expect(result).toHaveProperty('classes');
   });
 
   it('should have serialize function that works', () => {
