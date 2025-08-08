@@ -13,4 +13,4 @@ const raw = fs.readFileSync(inputFile, 'utf8');
 const ast = parse(raw);
 const result = serialize(ast, { commentStrategy: 'generate' });
 
-console.log(result); 
+console.log(result);

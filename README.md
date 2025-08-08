@@ -17,14 +17,17 @@ import { parse, serialize, stringify } from '@pragma.tools/pbxproj';
 import fs from 'fs';
 
 // Read .pbxproj file
-const pbxprojContent = fs.readFileSync('MyApp.xcodeproj/project.pbxproj', 'utf8');
+const pbxprojContent = fs.readFileSync(
+  'MyApp.xcodeproj/project.pbxproj',
+  'utf8',
+);
 
 // Parse to AST
 const ast = parse(pbxprojContent);
 
 // Serialize back to .pbxproj format
-const serialized = serialize(ast, { 
-  commentStrategy: 'generate' // 'preserve', 'strip', 'generate', or custom function
+const serialized = serialize(ast, {
+  commentStrategy: 'generate', // 'preserve', 'strip', 'generate', or custom function
 });
 
 // Or use stringify (alias for serialize)
@@ -48,17 +51,17 @@ console.log(serialized);
 
 /* Begin PBXBuildFile section */
 		1A2B3C4D5E6F7890ABCDEF01 /* AppDelegate.swift in Sources */ = {
-			isa = PBXBuildFile; 
-			fileRef = 1A2B3C4D5E6F7890ABCDEF02 /* AppDelegate.swift */; 
+			isa = PBXBuildFile;
+			fileRef = 1A2B3C4D5E6F7890ABCDEF02 /* AppDelegate.swift */;
 		};
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		1A2B3C4D5E6F7890ABCDEF02 /* AppDelegate.swift */ = {
-			isa = PBXFileReference; 
-			lastKnownFileType = sourcecode.swift; 
-			path = AppDelegate.swift; 
-			sourceTree = "<group>"; 
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = AppDelegate.swift;
+			sourceTree = "<group>";
 		};
 /* End PBXFileReference section */
 
@@ -129,15 +132,19 @@ npx @pragma.tools/pbxproj path/to/project.pbxproj
 ## API Reference
 
 ### `parse(pbxprojText, options = {})`
+
 Parses .pbxproj file content into AST.
 
 ### `serialize(ast, options = {})`
+
 Serializes AST back to .pbxproj format.
 
 ### `stringify(ast, options = {})`
+
 Alias for `serialize` function.
 
 ### Legacy Support
+
 - `build(ast, options = {})` - Legacy alias for `serialize`, maintained for backward compatibility
 
 ## Testing
@@ -154,12 +161,14 @@ npm run test:watch
 ```
 
 The project includes comprehensive tests covering:
+
 - **Unit tests** - Individual function testing (`parse`, `build`, `generateComment`)
 - **Integration tests** - Full parse-build cycle testing
 - **CLI tests** - Command-line interface testing
 - **Edge cases** - Error handling and boundary conditions
 
 Test coverage includes:
+
 - ✅ All main module exports
 - ✅ Different comment strategies
 - ✅ Error handling scenarios
@@ -172,4 +181,4 @@ Denis Kreshikhin <denis@kreshikhin.com>
 
 ## License
 
-MIT 
+MIT

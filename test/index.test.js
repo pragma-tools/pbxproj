@@ -21,12 +21,12 @@ describe('Main Module', () => {
   it('should have parse function that works', () => {
     const input = 'archiveVersion = 1;\nobjectVersion = 56;';
     const result = parse(input);
-    
+
     expect(result).toHaveProperty('archiveVersion');
     expect(result).toHaveProperty('objectVersion');
     expect(result.archiveVersion).toBe(1);
     expect(result.objectVersion).toBe(56);
-    
+
     // Check that it includes pbxproj structure fields
     expect(result).toHaveProperty('objects');
     expect(result).toHaveProperty('rootObject');
@@ -40,9 +40,9 @@ describe('Main Module', () => {
       objects: {},
       rootObject: 'ABC123',
     };
-    
+
     const result = serialize(ast);
-    
+
     expect(typeof result).toBe('string');
     expect(result).toContain('archiveVersion = 1;');
     expect(result).toContain('objectVersion = 56;');
@@ -55,9 +55,9 @@ describe('Main Module', () => {
       objects: {},
       rootObject: 'ABC123',
     };
-    
+
     const result = stringify(ast);
-    
+
     expect(typeof result).toBe('string');
     expect(result).toContain('archiveVersion = 1;');
     expect(result).toContain('objectVersion = 56;');
@@ -70,9 +70,9 @@ describe('Main Module', () => {
       objects: {},
       rootObject: 'ABC123',
     };
-    
+
     const result = build(ast);
-    
+
     expect(typeof result).toBe('string');
     expect(result).toContain('archiveVersion = 1;');
     expect(result).toContain('objectVersion = 56;');
@@ -85,12 +85,12 @@ describe('Main Module', () => {
       objects: {},
       rootObject: 'ABC123',
     };
-    
+
     const serializeResult = serialize(ast);
     const stringifyResult = stringify(ast);
     const buildResult = build(ast);
-    
+
     expect(serializeResult).toBe(stringifyResult);
     expect(serializeResult).toBe(buildResult);
   });
-}); 
+});

@@ -8,16 +8,16 @@ describe('serialize', () => {
       objectVersion: 56,
       objects: {},
       rootObject: 'ABC123',
-          };
+    };
 
-      const result = serialize(ast);
+    const result = serialize(ast);
 
-      expect(result).toBe(
+    expect(result).toBe(
       'archiveVersion = 1;\n' +
-      'objectVersion = 56;\n' +
-      'objects = {\n' +
-      '};\n' +
-      'rootObject = ABC123;'
+        'objectVersion = 56;\n' +
+        'objects = {\n' +
+        '};\n' +
+        'rootObject = ABC123;',
     );
   });
 
@@ -26,11 +26,11 @@ describe('serialize', () => {
       archiveVersion: 1,
       objectVersion: 56,
       objects: {
-        'ABC123': {
+        ABC123: {
           isa: 'PBXFileReference',
           path: 'AppDelegate.swift',
         },
-        'DEF456': {
+        DEF456: {
           isa: 'PBXBuildFile',
           fileRef: 'ABC123',
         },
@@ -42,9 +42,9 @@ describe('serialize', () => {
 
     expect(result).toContain('ABC123 = {');
     expect(result).toContain('DEF456 = {');
-    expect(result).toContain('isa = "PBXFileReference";');
-    expect(result).toContain('path = "AppDelegate.swift";');
-    expect(result).toContain('fileRef = "ABC123";');
+    expect(result).toContain('isa = PBXFileReference;');
+    expect(result).toContain('path = AppDelegate.swift;');
+    expect(result).toContain('fileRef = ABC123;');
     expect(result).toContain('rootObject = GHI789;');
   });
 
@@ -53,7 +53,7 @@ describe('serialize', () => {
       archiveVersion: 1,
       objectVersion: 56,
       objects: {
-        'ABC123': {
+        ABC123: {
           isa: 'PBXFileReference',
           path: 'AppDelegate.swift',
         },
@@ -73,11 +73,11 @@ describe('serialize', () => {
       archiveVersion: 1,
       objectVersion: 56,
       objects: {
-        'ABC123': {
+        ABC123: {
           isa: 'PBXFileReference',
           path: 'AppDelegate.swift',
         },
-        'DEF456': {
+        DEF456: {
           isa: 'PBXBuildFile',
           name: 'Build File',
         },
@@ -96,7 +96,7 @@ describe('serialize', () => {
       archiveVersion: 1,
       objectVersion: 56,
       objects: {
-        'ABC123': {
+        ABC123: {
           isa: 'PBXFileReference',
           path: 'AppDelegate.swift',
         },
@@ -104,7 +104,7 @@ describe('serialize', () => {
       rootObject: 'ABC123',
     };
 
-    const customCommentFn = (obj) => `Custom: ${obj.isa}`;
+    const customCommentFn = obj => `Custom: ${obj.isa}`;
     const result = serialize(ast, { commentStrategy: customCommentFn });
 
     expect(result).toContain('ABC123 /* Custom: PBXFileReference */ = {');
@@ -132,7 +132,7 @@ describe('stringify (alias)', () => {
       archiveVersion: 1,
       objectVersion: 56,
       objects: {
-        'ABC123': {
+        ABC123: {
           isa: 'PBXFileReference',
           path: 'AppDelegate.swift',
         },
@@ -146,4 +146,4 @@ describe('stringify (alias)', () => {
     expect(stringifyResult).toBe(serializeResult);
     expect(stringifyResult).toContain('ABC123 /* AppDelegate.swift */ = {');
   });
-}); 
+});

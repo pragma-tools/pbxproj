@@ -6,4 +6,4 @@ export default defineConfig({
     environment: 'node',
     include: ['test/**/*.test.js'],
   },
-}); 
+});

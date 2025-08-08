@@ -78,4 +78,4 @@ describe('generateComment', () => {
 
     expect(result).toBe('PBXGroup');
   });
-}); 
+});

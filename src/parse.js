@@ -1,6 +1,6 @@
 /**
  * Parse .pbxproj (Property List ASCII format) content
- * 
+ *
  * BNF Grammar for plist ASCII format:
  * plist      := assignment*
  * assignment := key "=" value ";"
@@ -13,8 +13,9 @@
  */
 
 export function parse(pbxprojText, options = {}) {
+  // eslint-disable-next-line no-unused-vars
   const { preserveComments = false } = options;
-  
+
   // Tokenizer
   class Tokenizer {
     constructor(text) {
@@ -72,40 +73,52 @@ export function parse(pbxprojText, options = {}) {
       if (this.text[this.pos] !== '"') {
         throw new Error(`Expected quote at position ${this.pos}`);
       }
-      
+
       this.pos++; // skip opening quote
       let result = '';
-      
+
       while (this.pos < this.length && this.text[this.pos] !== '"') {
         if (this.text[this.pos] === '\\') {
           this.pos++; // skip escape
           if (this.pos >= this.length) break;
-          
+
           const escaped = this.text[this.pos];
           switch (escaped) {
-            case 'n': result += '\n'; break;
-            case 't': result += '\t'; break;
-            case 'r': result += '\r'; break;
-            case '\\': result += '\\'; break;
-            case '"': result += '"'; break;
-            default: result += escaped; break;
+            case 'n':
+              result += '\n';
+              break;
+            case 't':
+              result += '\t';
+              break;
+            case 'r':
+              result += '\r';
+              break;
+            case '\\':
+              result += '\\';
+              break;
+            case '"':
+              result += '"';
+              break;
+            default:
+              result += escaped;
+              break;
           }
         } else {
           result += this.text[this.pos];
         }
         this.pos++;
       }
-      
+
       if (this.pos < this.length && this.text[this.pos] === '"') {
         this.pos++; // skip closing quote
       }
-      
+
       return result;
     }
 
     readUnquotedString() {
       let result = '';
-      
+
       while (this.pos < this.length) {
         const char = this.text[this.pos];
         if (/[a-zA-Z0-9_.$/-]/.test(char)) {
@@ -115,7 +128,7 @@ export function parse(pbxprojText, options = {}) {
           break;
         }
       }
-      
+
       return result;
     }
 
@@ -129,17 +142,17 @@ export function parse(pbxprojText, options = {}) {
 
     readNumber() {
       let result = '';
-      
+
       if (this.text[this.pos] === '-') {
         result += '-';
         this.pos++;
       }
-      
+
       while (this.pos < this.length && /\d/.test(this.text[this.pos])) {
         result += this.text[this.pos];
         this.pos++;
       }
-      
+
       if (this.pos < this.length && this.text[this.pos] === '.') {
         result += '.';
         this.pos++;
@@ -148,7 +161,7 @@ export function parse(pbxprojText, options = {}) {
           this.pos++;
         }
       }
-      
+
       return parseFloat(result);
     }
   }
@@ -161,107 +174,111 @@ export function parse(pbxprojText, options = {}) {
 
     parseValue() {
       this.tokenizer.skipWhitespaceAndComments();
-      
+
       if (this.tokenizer.isAtEnd()) {
         return null;
       }
 
       const char = this.tokenizer.peek();
-      
+
       if (char === '{') {
         return this.parseDictionary();
       } else if (char === '(') {
         return this.parseArray();
       } else if (char === '"' || /[a-zA-Z0-9_.$/-]/.test(char)) {
         const value = this.tokenizer.readString();
-        
+
         // Try to parse as number if it looks like one
         if (/^-?\d+(\.\d+)?$/.test(value)) {
           return parseFloat(value);
         }
-        
+
         return value;
       } else if (/\d|-/.test(char)) {
         return this.tokenizer.readNumber();
       } else {
-        throw new Error(`Unexpected character '${char}' at position ${this.tokenizer.pos}`);
+        throw new Error(
+          `Unexpected character '${char}' at position ${this.tokenizer.pos}`,
+        );
       }
     }
 
     parseDictionary() {
       this.tokenizer.skipWhitespaceAndComments();
-      
+
       if (this.tokenizer.peek() !== '{') {
         throw new Error(`Expected '{' at position ${this.tokenizer.pos}`);
       }
-      
+
       this.tokenizer.advance(); // skip '{'
       const dict = {};
-      
+
       while (true) {
         this.tokenizer.skipWhitespaceAndComments();
-        
+
         if (this.tokenizer.isAtEnd()) {
           throw new Error('Unexpected end of input while parsing dictionary');
         }
-        
+
         if (this.tokenizer.peek() === '}') {
           this.tokenizer.advance();
           break;
         }
-        
+
         // Parse key
         const key = this.tokenizer.readString();
-        
+
         this.tokenizer.skipWhitespaceAndComments();
-        
+
         if (this.tokenizer.peek() !== '=') {
-          throw new Error(`Expected '=' after key '${key}' at position ${this.tokenizer.pos}`);
+          throw new Error(
+            `Expected '=' after key '${key}' at position ${this.tokenizer.pos}`,
+          );
         }
-        
+
         this.tokenizer.advance(); // skip '='
-        
+
         // Parse value
         const value = this.parseValue();
         dict[key] = value;
-        
+
         this.tokenizer.skipWhitespaceAndComments();
-        
+
         if (this.tokenizer.peek() === ';') {
           this.tokenizer.advance(); // skip ';'
         }
       }
-      
+
       return dict;
     }
 
     parseArray() {
       this.tokenizer.skipWhitespaceAndComments();
-      
+
       if (this.tokenizer.peek() !== '(') {
         throw new Error(`Expected '(' at position ${this.tokenizer.pos}`);
       }
-      
+
       this.tokenizer.advance(); // skip '('
       const array = [];
-      
+
       while (true) {
         this.tokenizer.skipWhitespaceAndComments();
-        
+
         if (this.tokenizer.isAtEnd()) {
           throw new Error('Unexpected end of input while parsing array');
         }
-        
+
         if (this.tokenizer.peek() === ')') {
           this.tokenizer.advance();
           break;
         }
-        
+
         const value = this.parseValue();
         array.push(value);
-        
+
         this.tokenizer.skipWhitespaceAndComments();
-        
+
         if (this.tokenizer.peek() === ',') {
           this.tokenizer.advance(); // skip ','
         } else if (this.tokenizer.peek() === ')') {
@@ -269,45 +286,47 @@ export function parse(pbxprojText, options = {}) {
           continue;
         }
       }
-      
+
       return array;
     }
 
     parse() {
       this.tokenizer.skipWhitespaceAndComments();
-      
+
       // Handle full plist format or just the root dictionary
       if (this.tokenizer.peek() === '{') {
         return this.parseDictionary();
       } else {
         // Parse as root-level assignments
         const root = {};
-        
+
         while (!this.tokenizer.isAtEnd()) {
           this.tokenizer.skipWhitespaceAndComments();
-          
+
           if (this.tokenizer.isAtEnd()) break;
-          
+
           const key = this.tokenizer.readString();
-          
+
           this.tokenizer.skipWhitespaceAndComments();
-          
+
           if (this.tokenizer.peek() !== '=') {
-            throw new Error(`Expected '=' after key '${key}' at position ${this.tokenizer.pos}`);
+            throw new Error(
+              `Expected '=' after key '${key}' at position ${this.tokenizer.pos}`,
+            );
           }
-          
+
           this.tokenizer.advance(); // skip '='
-          
+
           const value = this.parseValue();
           root[key] = value;
-          
+
           this.tokenizer.skipWhitespaceAndComments();
-          
+
           if (this.tokenizer.peek() === ';') {
             this.tokenizer.advance(); // skip ';'
           }
         }
-        
+
         return root;
       }
     }
@@ -317,7 +336,7 @@ export function parse(pbxprojText, options = {}) {
     const tokenizer = new Tokenizer(pbxprojText);
     const parser = new Parser(tokenizer);
     const parsed = parser.parse();
-    
+
     // Always ensure .pbxproj structure is complete
     return {
       archiveVersion: parsed.archiveVersion || null,
@@ -325,9 +344,9 @@ export function parse(pbxprojText, options = {}) {
       objects: parsed.objects || {},
       rootObject: parsed.rootObject || null,
       classes: parsed.classes || {},
-      ...parsed  // Override with any additional fields that might exist
+      ...parsed, // Override with any additional fields that might exist
     };
   } catch (error) {
     throw new Error(`Failed to parse .pbxproj: ${error.message}`);
   }
-} 
+}

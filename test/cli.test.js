@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { execSync } from 'child_process';
 import fs from 'fs';
 
@@ -13,11 +13,11 @@ describe('CLI', () => {
   });
 
   it('should process sample.pbxproj file', () => {
-    const result = execSync('node src/cli.js test/sample.pbxproj', { 
+    const result = execSync('node src/cli.js test/sample.pbxproj', {
       encoding: 'utf8',
-      stdio: 'pipe'
+      stdio: 'pipe',
     });
-    
+
     expect(result).toContain('archiveVersion = 1;');
     expect(result).toContain('objectVersion = 56;');
     expect(result).toContain('objects = {');
@@ -26,9 +26,9 @@ describe('CLI', () => {
 
   it('should handle non-existent file gracefully', () => {
     try {
-      execSync('node src/cli.js nonexistent.pbxproj', { 
-        encoding: 'utf8', 
-        stdio: 'pipe' 
+      execSync('node src/cli.js nonexistent.pbxproj', {
+        encoding: 'utf8',
+        stdio: 'pipe',
       });
     } catch (error) {
       expect(error.status).not.toBe(0);
@@ -45,4 +45,4 @@ describe('CLI', () => {
     const content = fs.readFileSync('./src/cli.js', 'utf8');
     expect(content.startsWith('#!/usr/bin/env node')).toBe(true);
   });
-}); 
+});

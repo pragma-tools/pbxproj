@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+build/
+coverage/
+
+# Logs
+*.log
+
+# Package files
+package-lock.json
+yarn.lock
+
+# Test files that should not be formatted
+test/sample.pbxproj
+
+# IDE files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
